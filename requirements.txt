@@ -1,0 +1,20 @@
+# Core dependencies
+openai>=1.0.0
+pydantic>=2.0.0
+requests>=2.25.0
+
+# Environment and configuration
+python-dotenv>=0.19.0
+
+# Terminal output formatting
+colorama>=0.4.4
+
+# Standard library dependencies (included with Python)
+# - os
+# - sys
+# - time
+# - json
+# - datetime
+# - pathlib
+# - typing
+# - re
