@@ -40,9 +40,10 @@ class ConversationState(BaseModel):
     context: Optional[Dict[str, Any]] = None
 
 
-class SimulationConfig(BaseModel):
+class SimulationConfig(BaseModel):    
     persona: UserPersona
     goal: ConversationGoal
+    model: str
     max_turns: int = 20
     api_endpoint: str
     simulation_id: str

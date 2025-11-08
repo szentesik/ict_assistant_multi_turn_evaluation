@@ -23,8 +23,9 @@ class ConversationEvaluator:
 
     Scores are normalized to 0-1 floats for metrics compatibility.
     """
-    def __init__(self, openai_api_key: str):
+    def __init__(self, openai_api_key: str, model: str = 'gpt-4o'):
         self.client = OpenAI(api_key=openai_api_key)
+        self.model = model
 
     def evaluate(
         self,
@@ -112,7 +113,7 @@ class ConversationEvaluator:
         Respond with only "TRUE" if the goal was achieved, or "FALSE" if not."""
 
         response = self.client.chat.completions.create(
-            model='gpt-4o',
+            model=self.model,
             messages=[{'role': 'user', 'content': prompt}],
             max_completion_tokens=10,
         )
@@ -154,7 +155,7 @@ class ConversationEvaluator:
         SCORE: [0, 1, 2, or 3]"""
 
         response = self.client.chat.completions.create(
-            model='gpt-4o',
+            model=self.model,
             messages=[{'role': 'user', 'content': prompt}],
             max_completion_tokens=200,
         )
@@ -213,7 +214,7 @@ class ConversationEvaluator:
         SCORE: [0, 1, 2, or 3]"""
 
         response = self.client.chat.completions.create(
-            model='gpt-4o',
+            model=self.model,
             messages=[{'role': 'user', 'content': prompt}],
             max_completion_tokens=200,
         )
@@ -273,7 +274,7 @@ class ConversationEvaluator:
         SCORE: [0, 1, 2, or 3]"""
 
         response = self.client.chat.completions.create(
-            model='gpt-4o',
+            model=self.model,
             messages=[{'role': 'user', 'content': prompt}],
             max_completion_tokens=200,
         )
@@ -328,7 +329,7 @@ class ConversationEvaluator:
         SCORE: [0, 1, 2, or 3]"""
 
         response = self.client.chat.completions.create(
-            model='gpt-4o',
+            model=self.model,
             messages=[{'role': 'user', 'content': prompt}],
             max_completion_tokens=200,
         )

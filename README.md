@@ -6,7 +6,7 @@ A comprehensive evaluation framework for testing AI assistants through simulated
 
 ### Core Capabilities
 - **Multi-Turn Conversation Simulation**: Simulates realistic user interactions with AI assistants
-- **LLM-as-Judge Evaluation**: Uses GPT-4o to evaluate conversation quality across multiple dimensions
+- **LLM-as-Judge Evaluation**: Uses configurable OpenAI models (default: GPT-4o) to evaluate conversation quality across multiple dimensions
 - **Persona-Based Testing**: Predefined user personas with different characteristics and behaviors
 - **Goal-Oriented Scenarios**: Test specific conversation goals and success criteria
 - **Comprehensive Metrics**: Detailed evaluation including clarity, relevance, completeness, and user satisfaction
@@ -55,7 +55,9 @@ A comprehensive evaluation framework for testing AI assistants through simulated
    ```env
    OPENAI_API_KEY=your_openai_api_key_here
    ASSISTANT_API_URL=http://localhost:3000/api/chat
+   OPENAI_MODEL=gpt-4o
    ```
+   Note: `OPENAI_MODEL` is optional and defaults to `gpt-4o` if not specified.
 
 ## 🚀 Quick Start
 
@@ -67,12 +69,16 @@ python run_simulation.py
 
 ### Specify Persona and Goal
 ```bash
-python run_simulation.py [persona] [goal]
+python run_simulation.py [persona] [goal] [model]
 ```
 
-**Example**:
+**Examples**:
 ```bash
+# Use default model (gpt-4o)
 python run_simulation.py allergy_constrained_parent allergy_safe_substitution
+
+# Specify a different model
+python run_simulation.py average_user learn_basic_concept gpt-4o-mini
 ```
 
 ### Available Personas
@@ -94,12 +100,13 @@ python run_simulation.py allergy_constrained_parent allergy_safe_substitution
 The system provides a simple command-line interface:
 
 ```bash
-python run_simulation.py [persona_id] [goal_id]
+python run_simulation.py [persona_id] [goal_id] [model]
 ```
 
 **Parameters**:
 - `persona_id`: ID of the user persona to simulate (optional, defaults to `average_user`)
 - `goal_id`: ID of the conversation goal to test (optional, defaults to `learn_basic_concept`)
+- `model`: OpenAI model to use for simulation and evaluation (optional, defaults to `gpt-4o` or `OPENAI_MODEL` env var)
 
 ### Example Commands
 
@@ -115,6 +122,9 @@ python run_simulation.py allergy_constrained_parent allergy_safe_substitution
 
 # Test fallback behavior
 python run_simulation.py average_user kb_no_match_fallback
+
+# Use a different model (e.g., for cost savings)
+python run_simulation.py average_user learn_basic_concept gpt-4o-mini
 ```
 
 ### Output
@@ -184,6 +194,9 @@ Recommendations:
 |----------|-------------|---------|
 | `OPENAI_API_KEY` | OpenAI API key for LLM evaluation | Required |
 | `ASSISTANT_API_URL` | URL of the AI assistant API | `http://localhost:3000/api/chat` |
+| `OPENAI_MODEL` | OpenAI model to use for simulation and evaluation | `gpt-4o` |
+
+**Note**: The model can also be specified as a command-line argument, which takes precedence over the environment variable.
 
 ### Custom Personas and Goals
 

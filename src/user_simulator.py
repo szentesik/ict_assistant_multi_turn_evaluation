@@ -10,10 +10,11 @@ from src.types import (
 
 
 class UserSimulator:
-    def __init__(self, openai_api_key: str, persona: UserPersona, goal: ConversationGoal):
+    def __init__(self, openai_api_key: str, persona: UserPersona, goal: ConversationGoal, model: str = 'gpt-4o'):
         self.client = OpenAI(api_key=openai_api_key)
         self.persona = persona
         self.goal = goal
+        self.model = model
         self.state = ConversationState(
             messages=[],
             current_turn=0,
@@ -36,12 +37,12 @@ class UserSimulator:
         Make the message natural and consistent with these traits."""
 
         response = self.client.chat.completions.create(
-            model='gpt-4o',
+            model=self.model,
             messages=[
                 {'role': 'system', 'content': system_prompt},
                 {'role': 'user', 'content': user_prompt},
             ],
-            max_tokens=300,
+            max_completion_tokens=300,
         )
 
         return response.choices[0].message.content or ''
@@ -90,12 +91,12 @@ class UserSimulator:
         IMPORTANT: Always include all four fields (MESSAGE, CONTINUE, SATISFACTION, REASON) in your response."""
 
         response = self.client.chat.completions.create(
-            model='gpt-4o',
+            model=self.model,
             messages=[
                 {'role': 'system', 'content': system_prompt},
                 {'role': 'user', 'content': user_prompt},
             ],
-            max_tokens=500,
+            max_completion_tokens=500,
         )
 
         content = response.choices[0].message.content or ''

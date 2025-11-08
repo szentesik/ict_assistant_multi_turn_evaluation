@@ -16,11 +16,11 @@ init(autoreset=True)
 class SimulationRunner:
     def __init__(self, config: SimulationConfig, openai_api_key: str):
         self.config = config
-        self.user_simulator = UserSimulator(openai_api_key, config.persona, config.goal)
+        self.user_simulator = UserSimulator(openai_api_key, config.persona, config.goal, model=config.model)
         self.assistant_client = AssistantClient(
             AssistantClientConfig(api_endpoint=config.api_endpoint)
         )
-        self.evaluator = ConversationEvaluator(openai_api_key)
+        self.evaluator = ConversationEvaluator(openai_api_key, model=config.model)
         self.response_times: List[float] = []
         self.errors: List[str] = []
 

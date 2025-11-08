@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Run a single simulation with specified persona and goal.
-Usage: python run_simulation.py [persona] [goal]
+Usage: python run_simulation.py [persona] [goal] [model]
+Model can also be set via OPENAI_MODEL environment variable.
 """
 
 import os
@@ -26,15 +27,19 @@ def main():
     """Main function to run a single simulation."""
     openai_api_key = os.getenv('OPENAI_API_KEY')
     assistant_api_url = os.getenv('ASSISTANT_API_URL', 'http://localhost:3000/api/chat')
+    model = os.getenv('OPENAI_MODEL', 'gpt-4o')
 
     if not openai_api_key:
         print(f"{Fore.RED}❌ OPENAI_API_KEY not found in environment variables")
         sys.exit(1)
 
-    # Get persona and goal from command line args
+    # Get persona, goal, and optionally model from command line args
     args = sys.argv[1:]
     persona_id = args[0] if len(args) > 0 else 'average_user'
     goal_id = args[1] if len(args) > 1 else 'learn_basic_concept'
+    # Allow model to be overridden via third argument
+    if len(args) > 2:
+        model = args[2]
 
     # Get persona and goal
     persona = PREDEFINED_PERSONAS.get(persona_id)
@@ -52,6 +57,7 @@ def main():
 
     # Create simulation config
     config = SimulationConfig(
+        model=model,
         persona=persona,
         goal=goal,
         max_turns=20,
@@ -61,6 +67,7 @@ def main():
 
     print(f"{Fore.CYAN}{Style.BRIGHT}\nAI Assistant Multi-Turn Evaluation System")
     print("=" * 50)
+    print(f"{Fore.WHITE}Using model: {model}")
 
     # Run the simulation
     runner = SimulationRunner(config, openai_api_key)
@@ -73,10 +80,12 @@ def main():
         sys.exit(1)
 
 def print_help():    
-    print(f"{Fore.CYAN}Usage: python run_simulation.py [persona] [goal]")
+    print(f"{Fore.CYAN}Usage: python run_simulation.py [persona] [goal] [model]")
     print(f"{Fore.CYAN}Available personas: {', '.join(PREDEFINED_PERSONAS.keys())}, default: {list(PREDEFINED_PERSONAS.keys())[0]}")
     print(f"{Fore.CYAN}Available goals: {', '.join(PREDEFINED_GOALS.keys())}, default: {list(PREDEFINED_GOALS.keys())[0]}")
+    print(f"{Fore.CYAN}Model: Can be set via OPENAI_MODEL environment variable or as third argument, default: gpt-4o")
     print(f"{Fore.CYAN}Example: python run_simulation.py average_user learn_basic_concept")
+    print(f"{Fore.CYAN}Example: python run_simulation.py average_user learn_basic_concept gpt-5")
     sys.exit(0)
 
 if __name__ == "__main__":
