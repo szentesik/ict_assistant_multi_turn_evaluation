@@ -6,7 +6,7 @@ A comprehensive evaluation framework for testing AI assistants through simulated
 
 ### Core Capabilities
 - **Multi-Turn Conversation Simulation**: Simulates realistic user interactions with AI assistants
-- **LLM-as-Judge Evaluation**: Uses GPT-5 to evaluate conversation quality across multiple dimensions
+- **LLM-as-Judge Evaluation**: Uses GPT-4o to evaluate conversation quality across multiple dimensions
 - **Persona-Based Testing**: Predefined user personas with different characteristics and behaviors
 - **Goal-Oriented Scenarios**: Test specific conversation goals and success criteria
 - **Comprehensive Metrics**: Detailed evaluation including clarity, relevance, completeness, and user satisfaction

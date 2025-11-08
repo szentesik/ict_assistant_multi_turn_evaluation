@@ -72,6 +72,16 @@ def main():
         print(f"{Fore.RED}\nSimulation failed: {e}")
         sys.exit(1)
 
+def print_help():    
+    print(f"{Fore.CYAN}Usage: python run_simulation.py [persona] [goal]")
+    print(f"{Fore.CYAN}Available personas: {', '.join(PREDEFINED_PERSONAS.keys())}, default: {list(PREDEFINED_PERSONAS.keys())[0]}")
+    print(f"{Fore.CYAN}Available goals: {', '.join(PREDEFINED_GOALS.keys())}, default: {list(PREDEFINED_GOALS.keys())[0]}")
+    print(f"{Fore.CYAN}Example: python run_simulation.py average_user learn_basic_concept")
+    sys.exit(0)
 
 if __name__ == "__main__":
-    main()
+    print(f"{Fore.CYAN}AI Assistant Multi-Turn Evaluation System")
+    if len(sys.argv) > 1 and sys.argv[1] in ['--help', '-h', '/?', 'help']:
+        print_help()
+    else:
+        main()
