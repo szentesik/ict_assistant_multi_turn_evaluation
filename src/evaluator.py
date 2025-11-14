@@ -157,7 +157,7 @@ class ConversationEvaluator:
         response = self.client.chat.completions.create(
             model=self.model,
             messages=[{'role': 'user', 'content': prompt}],
-            max_completion_tokens=200,
+            max_completion_tokens=300,
         )
 
         try:
@@ -171,6 +171,8 @@ class ConversationEvaluator:
                     # Fallback to single-line extraction
                     reason_line = [line for line in response_text.split('\n') if 'REASONING:' in line][0]
                     reason_text = reason_line.split('REASONING:')[1].strip()
+            else:                
+                print(f"❌ Wrong response format when checking clarity: {response_text}")
             score_line = [line for line in response_text.split('\n') if 'SCORE:' in line][0]
             score = int(score_line.split('SCORE:')[1].strip())
             return max(0, min(3, score)), reason_text
@@ -216,7 +218,7 @@ class ConversationEvaluator:
         response = self.client.chat.completions.create(
             model=self.model,
             messages=[{'role': 'user', 'content': prompt}],
-            max_completion_tokens=200,
+            max_completion_tokens=300,
         )
 
         try:
@@ -228,6 +230,8 @@ class ConversationEvaluator:
                 except Exception:
                     reason_line = [line for line in response_text.split('\n') if 'REASONING:' in line][0]
                     reason_text = reason_line.split('REASONING:')[1].strip()
+            else:
+                print(f"❌ Wrong response format when checking relevance: {response_text}")
             score_line = [line for line in response_text.split('\n') if 'SCORE:' in line][0]
             score = int(score_line.split('SCORE:')[1].strip())
             return max(0, min(3, score)), reason_text
@@ -276,7 +280,7 @@ class ConversationEvaluator:
         response = self.client.chat.completions.create(
             model=self.model,
             messages=[{'role': 'user', 'content': prompt}],
-            max_completion_tokens=200,
+            max_completion_tokens=300,
         )
 
         try:
@@ -288,6 +292,8 @@ class ConversationEvaluator:
                 except Exception:
                     reason_line = [line for line in response_text.split('\n') if 'REASONING:' in line][0]
                     reason_text = reason_line.split('REASONING:')[1].strip()
+            else:
+                print(f"❌ Wrong response format when checking completeness: {response_text}")
             score_line = [line for line in response_text.split('\n') if 'SCORE:' in line][0]
             score = int(score_line.split('SCORE:')[1].strip())
             return max(0, min(3, score)), reason_text
@@ -331,7 +337,7 @@ class ConversationEvaluator:
         response = self.client.chat.completions.create(
             model=self.model,
             messages=[{'role': 'user', 'content': prompt}],
-            max_completion_tokens=200,
+            max_completion_tokens=300,
         )
 
         try:
@@ -343,6 +349,8 @@ class ConversationEvaluator:
                 except Exception:
                     reason_line = [line for line in response_text.split('\n') if 'REASONING:' in line][0]
                     reason_text = reason_line.split('REASONING:')[1].strip()
+            else:
+                print(f"❌ Wrong response format when checking politeness: {response_text}")
             score_line = [line for line in response_text.split('\n') if 'SCORE:' in line][0]
             score = int(score_line.split('SCORE:')[1].strip())
             return max(0, min(3, score)), reason_text
@@ -425,12 +433,12 @@ Issues:
     def _calculate_overall_score(self, metrics: EvaluationMetrics) -> float:
         """Calculate an overall score from individual metrics."""
         weights = {
-            'goal_achieved': 0.20,
+            'goal_achieved': 0.25,
             'user_satisfaction': 0.15,
             'clarity': 0.15,
-            'relevance': 0.15,
+            'relevance': 0.20,
             'completeness': 0.15,
-            'politeness': 0.15,
+            'politeness': 0.05,
             'error_penalty': 0.05,
         }
 
